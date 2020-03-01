@@ -14,13 +14,11 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator.Services
 {
     public class BasketService : IBasketService
     {
-        private readonly HttpClient _httpClient;
         private readonly UrlsConfig _urls;
         private readonly ILogger<BasketService> _logger;
 
-        public BasketService(HttpClient httpClient, IOptions<UrlsConfig> config, ILogger<BasketService> logger)
+        public BasketService(IOptions<UrlsConfig> config, ILogger<BasketService> logger)
         {
-            _httpClient = httpClient;
             _urls = config.Value;
             _logger = logger;
         }

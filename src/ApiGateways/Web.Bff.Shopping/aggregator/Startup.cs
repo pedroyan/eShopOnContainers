@@ -175,6 +175,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             return services;
         }
+
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //register delegating handlers
@@ -182,25 +183,16 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //register http services
-
-            services.AddHttpClient<IBasketService, BasketService>()
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddDevspacesSupport();
-
-            services.AddHttpClient<ICatalogService, CatalogService>()
-                .AddDevspacesSupport();
-
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddDevspacesSupport();
 
-            services.AddHttpClient<IOrderingService, OrderingService>()
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddDevspacesSupport();
+            //register gRPC services
+            services.AddTransient<IBasketService, BasketService>();
+            services.AddTransient<ICatalogService, CatalogService>();
+            services.AddTransient<IOrderingService, OrderingService>();
 
             return services;
         }
-
-
     }
 }

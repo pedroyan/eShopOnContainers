@@ -46,7 +46,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
             services.AddCustomMvc(Configuration)
                  .AddCustomAuthentication(Configuration)
                  .AddDevspaces()
-                 .AddHttpServices();
+                 .AddApplicationServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -172,26 +172,20 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
             return services;
         }
 
-        public static IServiceCollection AddHttpServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //register http services
-            services
-                .AddHttpClient<IBasketService, BasketService>()
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddDevspacesSupport();
-
-            services.AddHttpClient<ICatalogService, CatalogService>()
-                   .AddDevspacesSupport();
-
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
                    .AddDevspacesSupport();
 
-            services.AddHttpClient<IOrderingService, OrderingService>()
-                   .AddDevspacesSupport();
+            //register gRPC services
+            services.AddTransient<IBasketService, BasketService>();
+            services.AddTransient<ICatalogService, CatalogService>();
+            services.AddTransient<IOrderingService, OrderingService>();
 
             return services;
         }
