@@ -61,6 +61,10 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.Infrastructure
             // B) Right AFTER committing data (EF SaveChanges) into the DB will make multiple transactions. 
             // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers. 
             await _mediator.DispatchDomainEventsAsync(this);
+            
+            //Also it is worth noting that integration events are not dispatched right away by handlers. They actually
+            //register those events on the database on this same transaction to be dispatched later. Check the
+            //TransactionBehaviour on the Ordering.API for more information
 
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
