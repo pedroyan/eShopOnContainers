@@ -35,6 +35,9 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.Domain.AggregatesModel.O
         // Using a private collection field, better for DDD Aggregate's encapsulation
         // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
         // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
+        
+        //The foreign key relationship is set on the OrderEntityTypeConfiguration using the
+        //FindNavigation method
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
